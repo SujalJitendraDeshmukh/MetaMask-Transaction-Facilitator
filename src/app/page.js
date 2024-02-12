@@ -8,7 +8,7 @@ export default function Home() {
             <input type={"text"} placeholder={"Enter Sender's Address"}/>
             <input type={"text"} placeholder={"Enter Reciever's Address"}/>
             <input type={"number"} placeholder={"Enter the Amount"}/>
-              <Button variant="text">Text</Button>
+              <Button variant="text">Transfer</Button>
           </form>
       </div>
   );
