@@ -1,0 +1,1 @@
+export const AlchemySepoliaProvider = "https://eth-sepolia.g.alchemy.com/v2/WBdGDtGfarFaZsi7KwpVLBJWSICKBol4";

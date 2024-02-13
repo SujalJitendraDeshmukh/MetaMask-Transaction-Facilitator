@@ -2,20 +2,18 @@
 
 import {Button} from "@mui/material";
 import { ethers } from "ethers";
-import dotenv from "dotenv";
 import {useEffect, useState} from "react";
-
-dotenv.config();
-
+import TransferTokensAbi from '@/assets/web3/Abis/TransferTokensAbi.json';
+import {AlchemySepoliaProvider} from "@/assets/web3/Provider";
+import {TokenTransferContractAddress} from "@/assets/web3/Address";
 export default function Home() {
     const [blockNumber, setBlockNumber] = useState(null);
 
     console.log(__dirname);
-    // const compiledContract = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    // const contractABI = compiledContract.abi;
-    const contractAddress = "0x3072e8A9eB5fa30ac52BF12e8C2eBF5f09178649";
-    const provider = new ethers.providers.JsonRpcProvider("https://eth-sepolia.g.alchemy.com/v2/WBdGDtGfarFaZsi7KwpVLBJWSICKBol4");
+    const provider = new ethers.providers.JsonRpcProvider(AlchemySepoliaProvider);
     const signer = provider.getSigner("0xfB43419929FA1DeDF67B51252Eb734844c3f52D0")
+
+    const TransferTokenContract = new ethers.Contract(TokenTransferContractAddress, TransferTokensAbi, provider);
 
         const fetchBlockNumber = async () => {
             try {
