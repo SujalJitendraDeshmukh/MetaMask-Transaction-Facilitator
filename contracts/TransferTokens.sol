@@ -11,4 +11,8 @@ contract TransferTokens {
         _to.transfer(_amount);
         emit Transfer(msg.sender, _to, _amount);
     }
+
+    function check() public view returns (string memory) {
+        return "Shashwat Singh";
+    }
 }

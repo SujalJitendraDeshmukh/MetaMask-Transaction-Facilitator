@@ -1,15 +1,15 @@
 "use client"
 
 import {Button} from "@mui/material";
-import { ethers } from "ethers";
 import {useEffect, useState} from "react";
 import TransferTokensAbi from '@/assets/web3/Abis/TransferTokensAbi.json';
 import {AlchemySepoliaProvider} from "@/assets/web3/Provider";
 import {TokenTransferContractAddress} from "@/assets/web3/Address";
+import {ethers} from "ethers";
 export default function Home() {
     const [blockNumber, setBlockNumber] = useState(null);
+    const [name, setName] = useState(null);
 
-    console.log(__dirname);
     const provider = new ethers.providers.JsonRpcProvider(AlchemySepoliaProvider);
     const signer = provider.getSigner("0xfB43419929FA1DeDF67B51252Eb734844c3f52D0")
 
@@ -24,7 +24,10 @@ export default function Home() {
             }
     }
 
-
+    const setMyName = async () => {
+        const myName = await TransferTokenContract.check();
+        setName(myName);
+    }
 
   return (
       <div>
@@ -39,6 +42,9 @@ export default function Home() {
               <h1>This is gonna be the block number</h1>
               <Button onClick={fetchBlockNumber}>Set Block Number</Button>
               {blockNumber}
+              <h1>This is gonna be my name</h1>
+              <Button onClick={setMyName}>Fetch Name</Button>
+              {name}
           </div>
       </div>
   );
