@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.8;
 
 contract TransferTokens {
     event Transfer(address indexed _from, address indexed _to, uint256 _amount);
