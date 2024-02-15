@@ -3,7 +3,6 @@
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import TransferTokensAbi from "@/assets/web3/Abis/TransferTokensAbi.json";
-import { AlchemySepoliaProvider } from "@/assets/web3/Provider";
 import { TokenTransferContractAddress } from "@/assets/web3/Address";
 import { ethers } from "ethers";
 export default function Home() {
@@ -13,8 +12,9 @@ export default function Home() {
   const [account, setAccount] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //set signer after getting the account id from meta mask
-  const amountInWei = ethers.utils.parseUnits("10.0", "wei");
+
+
+  const amountInWei = ethers.utils.parseUnits("10.0", "wei"); //This is to set amount in wei
   const connectMetaMask = async () => {
     if (window.ethereum) {
       try {
