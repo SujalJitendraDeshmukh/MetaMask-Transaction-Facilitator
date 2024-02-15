@@ -2,17 +2,17 @@
 
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import TransferTokensAbi from "@/assets/web3/Abis/TransferTokensAbi.json";
-import { TokenTransferContractAddress } from "@/assets/web3/Address";
+import { provider } from "@/assets/web3/Provider";
 import { ethers } from "ethers";
+import toTransfer from "@/hooks/toTransfer";
 export default function Home() {
   const [blockNumber, setBlockNumber] = useState(null);
   const [name, setName] = useState(null);
   const [txHash, setTxHash] = useState(null);
   const [account, setAccount] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
+  const { getContract } = toTransfer();
 
   const amountInWei = ethers.utils.parseUnits("10.0", "wei"); //This is to set amount in wei
   const connectMetaMask = async () => {
@@ -39,11 +39,7 @@ export default function Home() {
     }
   }, []);
 
-  const TransferTokenContract = new ethers.Contract(
-    TokenTransferContractAddress,
-    TransferTokensAbi,
-    provider
-  );
+  const TransferTokenContract = getContract();
 
   const fetchBlockNumber = async () => {
     try {
