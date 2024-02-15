@@ -6,14 +6,12 @@ import TransferTokensAbi from "@/assets/web3/Abis/TransferTokensAbi.json";
 import { AlchemySepoliaProvider } from "@/assets/web3/Provider";
 import { TokenTransferContractAddress } from "@/assets/web3/Address";
 import { ethers } from "ethers";
-
 export default function Home() {
   const [blockNumber, setBlockNumber] = useState(null);
   const [name, setName] = useState(null);
   const [txHash, setTxHash] = useState(null);
   const [account, setAccount] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  //   const provider = new ethers.providers.JsonRpcProvider(AlchemySepoliaProvider);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   //set signer after getting the account id from meta mask
 
@@ -24,8 +22,6 @@ export default function Home() {
           method: "eth_requestAccounts",
         });
         setAccount(accounts[0]);
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-
         setIsConnected(true);
       } catch (error) {
         console.error(error);
@@ -69,10 +65,15 @@ export default function Home() {
 
   const transferEther = async (to, amount) => {
     try {
-      const signer = provider.getSigner(account);
+      const sign = account;
+      const signer = provider.getSigner(sign);
+      console.log("Signer:", signer);
       const ttiwthSigner = TransferTokenContract.connect(signer);
       const Wei = ethers.utils.parseUnits("1.0", 18);
-      const tx = ttiwthSigner.transferEther(to, amount);
+      const tx = ttiwthSigner.transferEther(to, amount, {
+        gasLimit: 22000,
+        gasPrice: ethers.utils.parseUnits("10", "gwei"),
+      });
       setTxHash(tx);
     } catch (error) {
       console.error("Error transferring ether:", error);
@@ -97,7 +98,7 @@ export default function Home() {
         <Button
           variant="text"
           onClick={() =>
-            transferEther("0xd8A6BFc168C67c56173E6EbA194fD0eB9E0e5D39", 1)
+            transferEther("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 1)
           }
         >
           Transfer
