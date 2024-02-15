@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "abiBuild": "solcjs --abi -p --include-path node_modules/ -o ./Abi --base-path . contracts/TransferTokens.sol"
+    "abiBuild": "solcjs --abi -p --include-path node_modules/ -o ./src/assets/web3/Abis --base-path . contracts/TransferTokens.sol"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
