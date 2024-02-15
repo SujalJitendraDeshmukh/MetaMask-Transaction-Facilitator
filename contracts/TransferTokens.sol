@@ -15,4 +15,6 @@ contract TransferTokens {
     function check() public view returns (string memory) {
         return "Shashwat Singh";
     }
+
+    receive() external payable {}
 }

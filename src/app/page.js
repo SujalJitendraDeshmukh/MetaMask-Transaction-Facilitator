@@ -36,11 +36,11 @@ export default function Home() {
         }
     }
 
-    const transferEther = async (to, amount) => {
+    const transferEther = async (to, amount, weiAmount) => {
         try {
             const ttiwthSigner = TransferTokenContract.connect(signer);
-            const Wei = ethers.utils.parseUnits("1.0", 18);
-            const tx = ttiwthSigner.transferEther(to,amount);
+            const Wei = ethers.utils.parseUnits(weiAmount.toString(), 18);
+            const tx = await ttiwthSigner.transferEther(to, amount, { value: Wei, gasLimit: 3000000 });
             setTxHash(tx);
         } catch (error) {
             console.error("Error transferring ether:", error);
@@ -62,7 +62,7 @@ export default function Home() {
                 <Button onClick={setMyName}>Fetch Name</Button>
                 {name}
                 <h1>Send Transaction</h1>
-                <Button variant="text" onClick={() => transferEther("0xd8A6BFc168C67c56173E6EbA194fD0eB9E0e5D39", 1)}>Transfer</Button>
+                <Button variant="text" onClick={() => transferEther("0xd8A6BFc168C67c56173E6EbA194fD0eB9E0e5D39", 0,10)}>Transfer</Button>
                 {txHash}
             </div>
         </div>
