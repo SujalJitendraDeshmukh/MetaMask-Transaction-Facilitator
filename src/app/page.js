@@ -70,11 +70,11 @@ export default function Home() {
       console.log("Signer:", signer);
       const ttiwthSigner = TransferTokenContract.connect(signer);
       const Wei = ethers.utils.parseUnits("1.0", 18);
-      const tx = ttiwthSigner.transferEther(to, amount, {
+      const tx = await ttiwthSigner.transferEther(to, amount, {
         gasLimit: 22000,
         gasPrice: ethers.utils.parseUnits("10", "gwei"),
       });
-      setTxHash(tx);
+      setTxHash(tx.hash);
     } catch (error) {
       console.error("Error transferring ether:", error);
     }
