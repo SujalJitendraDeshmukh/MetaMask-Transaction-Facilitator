@@ -62,7 +62,6 @@ export default function Home() {
       console.error("Error fetching name:", error);
     }
   };
-
   const transferEther = async (to, amountInWei) => {
     try {
       const signer = provider.getSigner(account);
