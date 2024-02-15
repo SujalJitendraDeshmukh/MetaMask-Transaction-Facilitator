@@ -63,16 +63,15 @@ export default function Home() {
     }
   };
 
-  const transferEther = async (to, amount) => {
+  const transferEther = async (to) => {
     try {
-      const sign = account;
-      const signer = provider.getSigner(sign);
+      const signer = provider.getSigner(account);
       console.log("Signer:", signer);
       const ttiwthSigner = TransferTokenContract.connect(signer);
-      const Wei = ethers.utils.parseUnits("1.0", 18);
-      const tx = await ttiwthSigner.transferEther(to, amount, {
-        gasLimit: 22000,
-        gasPrice: ethers.utils.parseUnits("10", "gwei"),
+      // const Wei = ethers.utils.parseUnits("1.0", 18);
+      const tx = await ttiwthSigner.transferEther(to, {
+        gasLimit: 100000,
+        gasPrice: ethers.utils.parseUnits("10", "wei"),
       });
       setTxHash(tx.hash);
     } catch (error) {
@@ -98,7 +97,7 @@ export default function Home() {
         <Button
           variant="text"
           onClick={() =>
-            transferEther("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 1)
+            transferEther("0xd8A6BFc168C67c56173E6EbA194fD0eB9E0e5D39")
           }
         >
           Transfer
