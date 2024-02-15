@@ -14,7 +14,7 @@ export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   //set signer after getting the account id from meta mask
-
+  const amountInWei = ethers.utils.parseUnits("10.0", "wei");
   const connectMetaMask = async () => {
     if (window.ethereum) {
       try {
@@ -63,15 +63,15 @@ export default function Home() {
     }
   };
 
-  const transferEther = async (to) => {
+  const transferEther = async (to, amountInWei) => {
     try {
       const signer = provider.getSigner(account);
       console.log("Signer:", signer);
       const ttiwthSigner = TransferTokenContract.connect(signer);
-      // const Wei = ethers.utils.parseUnits("1.0", 18);
       const tx = await ttiwthSigner.transferEther(to, {
         gasLimit: 100000,
         gasPrice: ethers.utils.parseUnits("10", "wei"),
+        value: amountInWei,
       });
       setTxHash(tx.hash);
     } catch (error) {
@@ -97,7 +97,7 @@ export default function Home() {
         <Button
           variant="text"
           onClick={() =>
-            transferEther("0xd8A6BFc168C67c56173E6EbA194fD0eB9E0e5D39")
+            transferEther("0xd8A6BFc168C67c56173E6EbA194fD0eB9E0e5D39",amountInWei)
           }
         >
           Transfer
