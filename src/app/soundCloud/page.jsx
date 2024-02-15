@@ -1,8 +1,9 @@
 "use client";
 
 import toTransfer from "@/hooks/toTransfer";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {formatEther} from "ethers/lib/utils";
+import {Button} from "@mui/material";
 
 export default function soundCloud(){
     const [ data, setData] = useState(null);
@@ -20,6 +21,19 @@ export default function soundCloud(){
     TransferTokenContract.on(filter, (_from,_to,_amount,Event)=>{
         setFilteredData(`${_from} sent ${formatEther(_amount)} to ${_to}`);
     })
+
+    useEffect(() => {
+        if (data) {
+            speak(data);
+        }
+    }, [data]);
+
+    function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = speechSynthesis.getVoices();
+        utterance.voice = voices[0];
+        speechSynthesis.speak(utterance);
+    }
 
     return(
         <div>
