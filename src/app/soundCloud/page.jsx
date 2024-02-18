@@ -4,14 +4,16 @@ import toTransfer from "@/hooks/toTransfer";
 import {useEffect, useState} from "react";
 import {formatEther} from "ethers/lib/utils";
 import {Button} from "@mui/material";
+import toTransferPolygon from "@/hooks/toTransferPolygon";
 
 export default function soundCloud(){
     const [ data, setData] = useState(null);
     const [address, setAddress] = useState("0xd8A6BFc168C67c56173E6EbA194fD0eB9E0e5D39");
     const [filteredData, setFilteredData] = useState("This is the filtered Data");
 
-    const { getContract } = toTransfer();
-    const TransferTokenContract = getContract();
+    const { getContractPolygon } = toTransferPolygon();
+    // const TransferTokenContract = getContract();
+    const TransferTokenContract = getContractPolygon();
     const filter = TransferTokenContract.filters.Transfer(null, address);
 
     TransferTokenContract.on("Transfer", (_from,_to,_amount,Event)=>{
