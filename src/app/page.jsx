@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { provider } from "@/assets/web3/Provider";
 import { ethers } from "ethers";
 import toTransfer from "@/hooks/toTransfer";
+import toTransferAVN from "@/hooks/toTransferAVN";
 export default function Home() {
   const [blockNumber, setBlockNumber] = useState(null);
   const [name, setName] = useState(null);
@@ -13,8 +14,9 @@ export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
 
   const { getContract } = toTransfer();
+  const { getContractAVN } = toTransferAVN()
 
-  const amountInWei = ethers.utils.parseUnits("10.0", "wei"); //This is to set amount in wei
+  const amountInWei = ethers.utils.parseUnits("1.0", "wei"); //This is to set amount in wei
   const connectMetaMask = async () => {
     if (window.ethereum) {
       try {
@@ -39,7 +41,8 @@ export default function Home() {
     }
   }, []);
 
-  const TransferTokenContract = getContract();
+  // const TransferTokenContract = getContract();
+  const TransferTokenContract = getContractAVN();
 
   const fetchBlockNumber = async () => {
     try {
@@ -64,8 +67,8 @@ export default function Home() {
       console.log("Signer:", signer);
       const ttiwthSigner = TransferTokenContract.connect(signer);
       const tx = await ttiwthSigner.transferEther(to, {
-        gasLimit: 100000,
-        gasPrice: ethers.utils.parseUnits("10", "wei"),
+        gasLimit: 300000,
+        // gasPrice: ethers.utils.parseUnits("10", "wei"),
         value: amountInWei,
       });
       setTxHash(tx.hash);
