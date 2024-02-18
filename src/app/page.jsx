@@ -8,6 +8,7 @@ import toTransfer from "@/hooks/toTransfer";
 import toTransferAVN from "@/hooks/toTransferAVN";
 import toTransferPolygon from "@/hooks/toTransferPolygon";
 import toTransferBSC from "@/hooks/toTransferBSC";
+import toTransferArbitrum from "@/hooks/toTransferArbitrum";
 export default function Home() {
   const [blockNumber, setBlockNumber] = useState(null);
   const [name, setName] = useState(null);
@@ -19,6 +20,7 @@ export default function Home() {
   const { getContractAVN } = toTransferAVN();
   const { getContractPolygon } = toTransferPolygon();
   const { getContractBSC } = toTransferBSC();
+  const { getContractArbitrum } = toTransferArbitrum();
 
   const amountInWei = ethers.utils.parseUnits("1.0", "wei"); //This is to set amount in wei
   const connectMetaMask = async () => {
@@ -48,8 +50,8 @@ export default function Home() {
   // const TransferTokenContract = getContract();
   // const TransferTokenContract = getContractAVN();
   // const TransferTokenContract = getContractPolygon();
-  const TransferTokenContract = getContractBSC();
-
+  // const TransferTokenContract = getContractBSC();
+  const TransferTokenContract = getContractArbitrum();
   const fetchBlockNumber = async () => {
     try {
       const num = await provider.getBlockNumber();
