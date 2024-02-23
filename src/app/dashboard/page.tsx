@@ -8,6 +8,9 @@ import {SetName} from "@/provider/redux/SetUsername";
 import {useEffect} from "react";
 import {ChangeFirstName} from "@/provider/redux/SetFirstName";
 import {ChangeLastName} from "@/provider/redux/SetLastName";
+import {ChangeAccount} from "@/provider/redux/SetAccount";
+import Button from '@mui/material/Button';
+import Link from 'next/link';
 
 export default function Dashboard() {
 
@@ -15,7 +18,24 @@ export default function Dashboard() {
     const Username = useSelector((state: RootState) => state.SetUsername.name);
     const FirstName = useSelector((state: RootState) => state.SetFirstName.name);
     const LastName = useSelector((state: RootState) => state.SetLastName.name);
+    const AccountName = useSelector((state: RootState) => state.SetAccount.name);
+
     const dispatch = useDispatch();
+
+    const connectMetaMask = async () => {
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({
+                    method: "eth_requestAccounts",
+                });
+                dispatch(ChangeAccount(accounts[0]))
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            alert("MetaMask extension not detected!");
+        }
+    };
 
     useEffect(() => {
         if (isLoaded && isSignedIn) {
@@ -38,6 +58,8 @@ export default function Dashboard() {
             <p>{FirstName}</p>
             <h2>Last Name</h2>
             <p>{LastName}</p>
+            <h2>Account</h2>
+            <p>{AccountName}</p>
             {/*<div>*/}
             {/*    <h1> Sign up </h1>*/}
             {/*    <SignUpButton/>*/}
@@ -47,6 +69,8 @@ export default function Dashboard() {
             {/*    <SignInButton/>*/}
             {/*</div>*/}
             <UserButton></UserButton>
+            <Button onClick={connectMetaMask}>Connect Metamask</Button>
+            <Link href="/transfer">Transfer</Link>
         </div>
     );
 }
