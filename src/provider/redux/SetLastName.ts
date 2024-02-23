@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const SetUsername = createSlice({
-    name: 'SetUsername',
+export const SetLastName = createSlice({
+    name: 'SetLastName',
     initialState:{
         name: ""
     },
     reducers:{
-        SetName (state, action){
+        ChangeLastName (state, action){
             state.name = action.payload;
         }
     }
 })
 
-export const { SetName } = SetUsername.actions
+export const { ChangeLastName } = SetLastName.actions

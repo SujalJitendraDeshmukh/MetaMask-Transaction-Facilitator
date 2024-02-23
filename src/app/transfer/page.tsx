@@ -22,7 +22,7 @@ export default function Transfer() {
             {user?.username}
             {/*<UserButton />*/}
             <div>
-                <button onClick={()=>dispatch(SetName("Shashwat Singh"))}>Change Name</button>
+                <button onClick={()=>dispatch(SetName(user?.username))}>Change Name</button>
             </div>
             <div>
                 {state}
