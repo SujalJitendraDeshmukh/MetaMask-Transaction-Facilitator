@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit'
 export const SetUsername = createSlice({
     name: 'SetUsername',
     initialState:{
-        username: "My name is Shashwat"
+        name: "Snehal bhai ka brain tanish bhai ka game"
     },
     reducers:{
-        ChangeUsername(state, action){
-            state.username = "hey";
+        SetName (state, action){
+            state.name = action.payload;
         }
     }
 })
 
-export const { ChangeUsername } = SetUsername.actions
+export const { SetName } = SetUsername.actions

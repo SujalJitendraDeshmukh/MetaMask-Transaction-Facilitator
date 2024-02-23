@@ -1,24 +1,16 @@
 'use client'
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
-import { ChangeUsername } from "@/provider/redux/SetUsername";
+import {SetName, SetUsername} from "@/provider/redux/SetUsername";
+import {RootState} from "@/provider/redux/store";
+import Link from 'next/link';
 
 export default function Transfer() {
     const { isLoaded, isSignedIn, user } = useUser();
+    const state = useSelector((state: RootState) => state.SetUsername.name);
     const dispatch = useDispatch();
-
-    const changeUsernameHandler = () => {
-        if (isLoaded && isSignedIn && user) {
-            console.log(user.username);
-            dispatch(ChangeUsername());
-        }
-    };
-
-    useEffect(() => {
-        changeUsernameHandler();
-    }, [isLoaded, isSignedIn, user, dispatch]);
 
     if (!isLoaded || !isSignedIn) {
         return null;
@@ -28,7 +20,14 @@ export default function Transfer() {
         <div>
             <h1>This page will be used for transferring</h1>
             {user?.username}
-            <UserButton />
+            {/*<UserButton />*/}
+            <div>
+                <button onClick={()=>dispatch(SetName("Shashwat Singh"))}>Change Name</button>
+            </div>
+            <div>
+                {state}
+            </div>
+            <Link href="/">Dashboard</Link>
         </div>
     );
 }
