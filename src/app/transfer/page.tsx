@@ -11,6 +11,8 @@ import { provider } from "@/assets/web3/Provider";
 import {ChangeTxHash} from "@/provider/redux/SetTxHash";
 import { transferEther } from '@/assets/web3/contract/contractETH';
 import { transferBinance } from '@/assets/web3/contract/contractBSC';
+import {transferAvalanche} from "@/assets/web3/contract/contractAVL";
+import {transferPolygon} from "@/assets/web3/contract/contractPLG";
 
 export default function Transfer() {
     const { isLoaded, isSignedIn, user } = useUser();
@@ -23,17 +25,20 @@ export default function Transfer() {
     const dispatch = useDispatch();
     async function callContract(type: string, to: string, account: string) {
         try {
+            let Hash : string;
             const amountInWei = '1000000000000000000';
             if (type==='ETH'){
-                const txHash = await transferEther(to, amountInWei, account);
-                dispatch(ChangeTxHash(txHash));
+                Hash = await transferEther(to, amountInWei, account);
+                dispatch(ChangeTxHash(Hash));
             } else if (type==='BSC'){
-                const txHash = await transferEther(to, amountInWei, account);
-                dispatch(ChangeTxHash(txHash));
+                Hash = await transferBinance(to, amountInWei, account);
+                dispatch(ChangeTxHash(Hash));
             } else if (type==='AVL'){
-
+                Hash = await transferAvalanche(to, amountInWei, account);
+                dispatch(ChangeTxHash(Hash));
             } else if (type === 'PLG'){
-
+                Hash = await transferPolygon(to, amountInWei, account);
+                dispatch(ChangeTxHash(Hash));
             }
         } catch (error) {
             console.error('Error transferring ether:', error);
