@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const SetAccount = createSlice({
-    name: 'SetAccount',
+export const SetTxHash = createSlice({
+    name: 'SetTxHash',
     initialState:{
         name: ""
     },
     reducers:{
-        ChangeAccount (state, action){
+        ChangeTxHash (state, action){
             state.name = action.payload;
         }
     }
 })
 
-export const { ChangeAccount } = SetAccount.actions
+export const { ChangeTxHash } = SetTxHash.actions

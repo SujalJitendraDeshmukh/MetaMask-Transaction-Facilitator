@@ -56,6 +56,8 @@ dotenv.config();
             <p>{FirstName}</p>
             <h2>Last Name</h2>
             <p>{LastName}</p>
+            <h2>Account</h2>
+            <p>{AccountName}</p>
             {/*<div>*/}
             {/*    <h1> Sign up </h1>*/}
             {/*    <SignUpButton/>*/}
