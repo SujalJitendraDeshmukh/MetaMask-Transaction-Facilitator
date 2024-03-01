@@ -21,6 +21,8 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {ChangeUnit} from "@/provider/redux/setUnit";
 import {ChangeBlockchain} from "@/provider/redux/SetBlockchain";
+import {ChangeRecipient, SetRecipient} from "@/provider/redux/SetRecipient";
+import {ChangeAmount} from "@/provider/redux/SetAmount";
 
 export default function Transfer() {
     const { isLoaded, isSignedIn, user } = useUser();
@@ -30,7 +32,9 @@ export default function Transfer() {
     const lastName = useSelector((state: RootState) => state.SetLastName.name);
     const txHash = useSelector((state: RootState) => state.SetTxHash.name);
     const unit = useSelector((state: RootState) => state.SetUnit.name);
-    const blockchain = useSelector((state: RootState) => state.SetUnit.name);
+    const blockchain = useSelector((state: RootState) => state.SetBlockchain.name);
+    const recipient = useSelector((state: RootState) => state.SetRecipient.name);
+    const amount = useSelector((state: RootState) => state.SetAmount.amount);
 
     const dispatch = useDispatch();
     async function callContract(type: string, to: string, account: string, amount: number, unit: string) {
@@ -61,19 +65,31 @@ export default function Transfer() {
         dispatch(ChangeBlockchain(event.target.value));
     };
 
+    const handleRecipient = (event) => {
+        dispatch(ChangeRecipient(event.target.value));
+    };
+
+    const handleAmount = (event) => {
+        dispatch(ChangeAmount(event.target.value));
+    };
+
+
     return (
         <div>
             <h1>This will be the transfer Page</h1>
             <Link href="/dashboard">Dashbaord</Link>
             <div style={{ marginBottom: '20px' }}>
-                <TextField id="standard-basic" label="Transfer To" variant="standard" />
+                <TextField id="RepicientAddress" label="Transfer To" variant="standard" onChange={handleRecipient}/>
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+                <TextField id="AmountToTransfer" label="Amount" variant="standard" onChange={handleAmount} value={amount}/>
             </div>
             <div style={{ marginBottom: '20px' }}>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <InputLabel id="Blockchain">Blockchain</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="Select Blockchain"
+                        id="SelectBlockchain"
                         value={blockchain}
                         label="Blockchain"
                         onChange={handleBlockChain}
@@ -87,19 +103,30 @@ export default function Transfer() {
             </div>
             <div>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Unit</InputLabel>
+                    <InputLabel id="Unit">Unit</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="Select Unit"
+                        id="UnitSelection"
                         value={unit}
                         label="Blockchain"
                         onChange={handleUint}
                     >
-                        <MenuItem value={"AVL"}>Avalanche</MenuItem>
-                        <MenuItem value={"BSC"}>BNB Smart Chain</MenuItem>
-                        <MenuItem value={"ETH"}>Ethereum</MenuItem>
+                        <MenuItem value={"wei"}>Wei</MenuItem>
+                        <MenuItem value={"gwei"}>Gwei</MenuItem>
+                        <MenuItem value={"shannon"}>Shannon</MenuItem>
+                        <MenuItem value={"ether"}>Ether</MenuItem>
+                        <MenuItem value={"finney"}>Finney</MenuItem>
+                        <MenuItem value={"szabo"}>Szabo</MenuItem>
+                        <MenuItem value={"kwei"}>Kwei</MenuItem>
+                        <MenuItem value={"ada"}>Ada</MenuItem>
                     </Select>
                 </FormControl>
+            </div>
+            <div>
+                <p>{unit}</p>
+                <p>{blockchain}</p>
+                <p>{recipient}</p>
+                <p>{amount}</p>
             </div>
         </div>
     );
