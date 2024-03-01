@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from "next/font/google";
 import ReduxProvider from "@/provider/redux/ReduxProvider";
+import Navbar from "@/app/components/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 

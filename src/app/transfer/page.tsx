@@ -85,6 +85,10 @@ export default function Transfer() {
         <div>
             <h1>This will be the transfer Page</h1>
             <Link href="/dashboard">Dashbaord</Link>
+            <Link href="/">LandingPage</Link>
+            <Link href="/soundBox">SoundBox</Link>
+            <Link href="/transfer">Transfer</Link>
+            <UserButton></UserButton>
             <div style={{ marginBottom: '20px' }}>
                 <TextField id="RepicientAddress" label="Transfer To" variant="standard" onChange={handleRecipient}/>
             </div>

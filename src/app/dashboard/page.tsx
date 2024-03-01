@@ -68,9 +68,12 @@ export default function Dashboard() {
             {/*    <h1> Sign In </h1>*/}
             {/*    <SignInButton/>*/}
             {/*</div>*/}
-            <UserButton></UserButton>
             <Button onClick={connectMetaMask}>Connect Metamask</Button>
+            <Link href="/dashboard">Dashbaord</Link>
+            <Link href="/">LandingPage</Link>
+            <Link href="/soundBox">SoundBox</Link>
             <Link href="/transfer">Transfer</Link>
+            <UserButton></UserButton>
         </div>
     );
 }
