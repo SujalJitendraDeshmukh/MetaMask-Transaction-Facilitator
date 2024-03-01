@@ -73,6 +73,13 @@ export default function Transfer() {
         dispatch(ChangeAmount(event.target.value));
     };
 
+    const handleTransfer = async () => {
+        try {
+            await callContract(blockchain, recipient,accountName, amount, unit);
+        } catch (error) {
+            console.error('Error calling contract:', error);
+        }
+    }
 
     return (
         <div>
@@ -123,10 +130,14 @@ export default function Transfer() {
                 </FormControl>
             </div>
             <div>
+                <Button onClick={handleTransfer}>Transfer</Button>
+            </div>
+            <div>
                 <p>{unit}</p>
                 <p>{blockchain}</p>
                 <p>{recipient}</p>
                 <p>{amount}</p>
+                <p>{txHash}</p>
             </div>
         </div>
     );
