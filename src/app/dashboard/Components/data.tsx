@@ -1,5 +1,5 @@
 
-export const fetchData = () => {
+export const fetchData = async () => {
   return fetch('https://www.alphavantage.co/query?function=CRYPTO_INTRADAY&symbol=ETH&market=USD&interval=5min&apikey=demo')
     .then(response => response.json())
     .then(data => {
@@ -8,8 +8,10 @@ export const fetchData = () => {
       const dates = Object.keys(data['Time Series Crypto (5min)']);
       const prices =[];
       for (let date of dates) {
-        prices.push(data['Time Series Crypto (5min)'][date]['1a. price (USD)']);
+        prices.push(data['Time Series Crypto (5min)'][date]['4. close']);
       }
+      console.log(prices);
+      console.log(dates);
       return {
         labels: dates,
         datasets: {

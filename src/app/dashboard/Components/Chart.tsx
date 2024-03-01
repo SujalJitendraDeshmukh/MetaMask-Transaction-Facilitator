@@ -19,7 +19,7 @@ import { fetchData } from "./data";
 
 
 
-const PriceChart = ({ data }: { data: {}}) => {
+const PriceChart = ({ data }: { data: any }) => {
     const chartOptions: ChartOptions<'line'> = {
         scales: {
             x: {

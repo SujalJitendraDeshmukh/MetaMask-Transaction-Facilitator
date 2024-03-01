@@ -33,23 +33,6 @@ dotenv.config();
     const dispatch = useDispatch();
     const [address,setAddress] = useState("");
     const [chartData, setChartData] = useState({});
-    useEffect(() => {
-    fetchData().then(data => {  
-      const ChartData = {
-        labels: data.labels,
-        datasets: [
-            {
-                label: 'ETH Price (USD)',
-                data: data.datasets[0].data,
-                borderColor: data.datasets[0].borderColor,
-                backgroundColor: data.datasets[0].backgroundColor,
-            },
-        ],
-    };
-    setChartData(ChartData);
-    });
-  
-  }, []);
     useMemo(() => {
         if (isLoaded && isSignedIn) {
             userAddress().then((address) => {
@@ -59,8 +42,23 @@ dotenv.config();
             dispatch(ChangeFirstName(user?.firstName));
             dispatch(ChangeLastName(user?.lastName));
             fetch('https://api.coinbase.com/v2/prices/ETH-USD/spot').then(response => response.json()).then(data =>setETHinUSD(data.data.amount));
+            fetchData().then(data => {  
+            const ChartData = {
+                labels: data!.labels,
+                datasets: 
+                    {
+                        label: 'ETH Price (USD)',
+                        data: data!.datasets.data,
+                        borderColor: data!.datasets.borderColor,
+                        backgroundColor: data!.datasets.backgroundColor,
+                    },
+            };
+            setChartData(ChartData);
+            }
+            );
         }   
-    }, [isLoaded, isSignedIn, user, dispatch]);
+    },
+    [isLoaded, isSignedIn, user, dispatch]);
 
     if (!isLoaded || !isSignedIn) {
         return null;
@@ -100,15 +98,10 @@ dotenv.config();
                 >
                     Get Transactions
                 </button>
-                if (chartData) {
-                <PriceChart data={chartData} />    
-                }
-                else {
-                 <h1>Loading...</h1>
-                }
-                
             </div>
-
+            <div>
+                {/* {chartData !== undefined && <PriceChart data={chartData} />} */}
+            </div>
         </div>
     );
 }
