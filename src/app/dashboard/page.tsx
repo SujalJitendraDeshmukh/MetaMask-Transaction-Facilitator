@@ -99,7 +99,9 @@ dotenv.config();
                     Get Transactions
                 </button>
             </div>
+
             <div>
+                {/* The chartData is not getting updated on line 56 idk why fcuk it  */}
                 {/* {chartData !== undefined && <PriceChart data={chartData} />} */}
             </div>
         </div>
