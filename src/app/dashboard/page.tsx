@@ -12,8 +12,9 @@ import { Piechart } from "./Components/Piechart";
 import { provider } from "@/assets/web3/Provider";
 import dotenv from "dotenv";
 import { userAddress } from "@/assets/web3/userAddress";
-// import { EthereumChart } from "./Components/Chart";
-
+import Chart from "./Components/Chart";
+import PriceChart from "./Components/Chart";
+import { fetchData } from "./Components/data";
 
 
 export default function Dashboard() {
@@ -23,7 +24,7 @@ dotenv.config();
         //call this function to get the price of eth in usd
 
 
-
+    
     const { isLoaded, isSignedIn, user } = useUser();
     const Username = useSelector((state: RootState) => state.SetUsername.name);
     const FirstName = useSelector((state: RootState) => state.SetFirstName.name);
@@ -31,6 +32,24 @@ dotenv.config();
     const [ETHinUSD,setETHinUSD] = useState(0);
     const dispatch = useDispatch();
     const [address,setAddress] = useState("");
+    const [chartData, setChartData] = useState({});
+    useEffect(() => {
+    fetchData().then(data => {  
+      const ChartData = {
+        labels: data.labels,
+        datasets: [
+            {
+                label: 'ETH Price (USD)',
+                data: data.datasets[0].data,
+                borderColor: data.datasets[0].borderColor,
+                backgroundColor: data.datasets[0].backgroundColor,
+            },
+        ],
+    };
+    setChartData(ChartData);
+    });
+  
+  }, []);
     useMemo(() => {
         if (isLoaded && isSignedIn) {
             userAddress().then((address) => {
@@ -47,6 +66,7 @@ dotenv.config();
         return null;
     }
 
+
     return (
         <div>
             <h1>State Check</h1>
@@ -57,7 +77,7 @@ dotenv.config();
             <h2>Last Name</h2>
             <p>{LastName}</p>
             <h2>Account</h2>
-            <p>{AccountName}</p>
+
             {/*<div>*/}
             {/*    <h1> Sign up </h1>*/}
             {/*    <SignUpButton/>*/}
@@ -71,15 +91,22 @@ dotenv.config();
             <Piechart/>
             {ETHinUSD}
             <div>
-            <button
-                onClick={() => {fetch(`https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=100&sort=asc&apikey=${process.env.ETHER_URL}`).
-                then(response => response.json())
-                .then(data => console.log(data))}}>
+                <button
+                    onClick={() => {
+                        fetch(`https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=100&sort=asc&apikey=${process.env.ETHER_URL}`)
+                            .then(response => response.json())
+                            .then(data => console.log(data))
+                    }}
+                >
                     Get Transactions
-            </button>
-            {/* <EthereumChart></EthereumChart> */}
-            
-
+                </button>
+                if (chartData) {
+                <PriceChart data={chartData} />    
+                }
+                else {
+                 <h1>Loading...</h1>
+                }
+                
             </div>
 
         </div>
