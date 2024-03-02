@@ -16,12 +16,13 @@ model User {
 }
 
 model Transaction {
-  id         Int    @id @default(autoincrement())
-  blockchain String
-  to         String
-  from       String
-  amount     Float
-  type       String
-  user       User?  @relation(fields: [userId], references: [id])
-  userId     Int?
+  id              Int    @id @default(autoincrement())
+  blockchain      String
+  to              String
+  from            String
+  amount          Float
+  type            String
+  transactionType String
+  user            User?  @relation(fields: [userId], references: [id])
+  userId          Int?
 }
