@@ -8,6 +8,7 @@ import {SetName} from "@/provider/redux/SetUsername";
 import {useEffect} from "react";
 import {ChangeFirstName} from "@/provider/redux/SetFirstName";
 import {ChangeLastName} from "@/provider/redux/SetLastName";
+import Link from "next/link";
 
 export default function Home() {
     return(
@@ -19,6 +20,7 @@ export default function Home() {
             <SignInButton redirectUrl={"/dashboard"}></SignInButton>
             <h2>SignUp</h2>
             <SignUpButton redirectUrl={"/dashboard"}></SignUpButton>
+            <Link href="/dashboard">Dashbaord</Link>
         </div>
     )
 }

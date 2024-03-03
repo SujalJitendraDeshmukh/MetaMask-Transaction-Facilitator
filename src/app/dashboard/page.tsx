@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import {SignUpButton, UserButton, SignInButton, useUser} from "@clerk/nextjs";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'
 import {RootState} from "@/provider/redux/store";
 import {SetName} from "@/provider/redux/SetUsername";
-import {FC, use, useEffect,useMemo,useState} from "react";
+import {useEffect} from "react";
 import {ChangeFirstName} from "@/provider/redux/SetFirstName";
 import {ChangeLastName} from "@/provider/redux/SetLastName";
+import {ChangeAccount} from "@/provider/redux/SetAccount";
+import Button from '@mui/material/Button';
+import Link from 'next/link';
 import { Piechart } from "./Components/Piechart";
 import { provider } from "@/assets/web3/Provider";
 import dotenv from "dotenv";
@@ -23,21 +26,33 @@ dotenv.config();
 
         //call this function to get the price of eth in usd
 
-
-    
     const { isLoaded, isSignedIn, user } = useUser();
     const Username = useSelector((state: RootState) => state.SetUsername.name);
     const FirstName = useSelector((state: RootState) => state.SetFirstName.name);
     const LastName = useSelector((state: RootState) => state.SetLastName.name);
-    const [ETHinUSD,setETHinUSD] = useState(0);
+    const AccountName = useSelector((state: RootState) => state.SetAccount.name);
+
     const dispatch = useDispatch();
+
+
+    const connectMetaMask = async () => {
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({
+                    method: "eth_requestAccounts",
+                });
+                dispatch(ChangeAccount(accounts[0]))
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            alert("MetaMask extension not detected!");
+        }
+    };
     const [address,setAddress] = useState("");
     const [chartData, setChartData] = useState({});
     useMemo(() => {
         if (isLoaded && isSignedIn) {
-            userAddress().then((address) => {
-                setAddress(address);
-            });
             dispatch(SetName(user?.username));
             dispatch(ChangeFirstName(user?.firstName));
             dispatch(ChangeLastName(user?.lastName));
@@ -84,6 +99,11 @@ dotenv.config();
             {/*    <h1> Sign In </h1>*/}
             {/*    <SignInButton/>*/}
             {/*</div>*/}
+            <Button onClick={connectMetaMask}>Connect Metamask</Button>
+            <Link href="/dashboard">Dashbaord</Link>
+            <Link href="/">LandingPage</Link>
+            <Link href="/soundBox">SoundBox</Link>
+            <Link href="/transfer">Transfer</Link>
             <UserButton></UserButton>
             {address}
             <Piechart/>
