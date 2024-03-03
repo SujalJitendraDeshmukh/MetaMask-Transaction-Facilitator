@@ -11,8 +11,20 @@ import {ChangeLastName} from "@/provider/redux/SetLastName";
 import {ChangeAccount} from "@/provider/redux/SetAccount";
 import Button from '@mui/material/Button';
 import Link from 'next/link';
+import { Piechart } from "./Components/Piechart";
+import { provider } from "@/assets/web3/Provider";
+import dotenv from "dotenv";
+import { userAddress } from "@/assets/web3/userAddress";
+import Chart from "./Components/Chart";
+import PriceChart from "./Components/Chart";
+import { fetchData } from "./Components/data";
+
 
 export default function Dashboard() {
+dotenv.config();
+    //Get eth to usd price
+
+        //call this function to get the price of eth in usd
 
     const { isLoaded, isSignedIn, user } = useUser();
     const Username = useSelector((state: RootState) => state.SetUsername.name);
@@ -21,6 +33,7 @@ export default function Dashboard() {
     const AccountName = useSelector((state: RootState) => state.SetAccount.name);
 
     const dispatch = useDispatch();
+
 
     const connectMetaMask = async () => {
         if (window.ethereum) {
@@ -36,18 +49,36 @@ export default function Dashboard() {
             alert("MetaMask extension not detected!");
         }
     };
-
-    useEffect(() => {
+    const [address,setAddress] = useState("");
+    const [chartData, setChartData] = useState({});
+    useMemo(() => {
         if (isLoaded && isSignedIn) {
             dispatch(SetName(user?.username));
             dispatch(ChangeFirstName(user?.firstName));
             dispatch(ChangeLastName(user?.lastName));
-        }
-    }, [isLoaded, isSignedIn, user, dispatch]);
+            fetch('https://api.coinbase.com/v2/prices/ETH-USD/spot').then(response => response.json()).then(data =>setETHinUSD(data.data.amount));
+            fetchData().then(data => {  
+            const ChartData = {
+                labels: data!.labels,
+                datasets: 
+                    {
+                        label: 'ETH Price (USD)',
+                        data: data!.datasets.data,
+                        borderColor: data!.datasets.borderColor,
+                        backgroundColor: data!.datasets.backgroundColor,
+                    },
+            };
+            setChartData(ChartData);
+            }
+            );
+        }   
+    },
+    [isLoaded, isSignedIn, user, dispatch]);
 
     if (!isLoaded || !isSignedIn) {
         return null;
     }
+
 
     return (
         <div>
@@ -59,7 +90,7 @@ export default function Dashboard() {
             <h2>Last Name</h2>
             <p>{LastName}</p>
             <h2>Account</h2>
-            <p>{AccountName}</p>
+
             {/*<div>*/}
             {/*    <h1> Sign up </h1>*/}
             {/*    <SignUpButton/>*/}
@@ -74,6 +105,25 @@ export default function Dashboard() {
             <Link href="/soundBox">SoundBox</Link>
             <Link href="/transfer">Transfer</Link>
             <UserButton></UserButton>
+            {address}
+            <Piechart/>
+            {ETHinUSD}
+            <div>
+                <button
+                    onClick={() => {
+                        fetch(`https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=100&sort=asc&apikey=${process.env.ETHER_URL}`)
+                            .then(response => response.json())
+                            .then(data => console.log(data))
+                    }}
+                >
+                    Get Transactions
+                </button>
+            </div>
+
+            <div>
+                {/* The chartData is not getting updated on line 56 idk why fcuk it  */}
+                {/* {chartData !== undefined && <PriceChart data={chartData} />} */}
+            </div>
         </div>
     );
 }
