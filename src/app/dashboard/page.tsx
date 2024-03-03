@@ -5,10 +5,11 @@ import {SignUpButton, UserButton, SignInButton, useUser} from "@clerk/nextjs";
 import { useSelector, useDispatch } from 'react-redux'
 import {RootState} from "@/provider/redux/store";
 import {SetName} from "@/provider/redux/SetUsername";
-import {useEffect} from "react";
+import {useEffect,useState,useMemo} from "react";
 import {ChangeFirstName} from "@/provider/redux/SetFirstName";
 import {ChangeLastName} from "@/provider/redux/SetLastName";
 import {ChangeAccount} from "@/provider/redux/SetAccount";
+import {Changechart} from "@/provider/redux/SetChartData";
 import Button from '@mui/material/Button';
 import Link from 'next/link';
 import { Piechart } from "./Components/Piechart";
@@ -18,6 +19,7 @@ import { userAddress } from "@/assets/web3/userAddress";
 import Chart from "./Components/Chart";
 import PriceChart from "./Components/Chart";
 import { fetchData } from "./Components/data";
+import YourComponent from "./Components/linechart";
 
 
 export default function Dashboard() {
@@ -31,6 +33,8 @@ dotenv.config();
     const FirstName = useSelector((state: RootState) => state.SetFirstName.name);
     const LastName = useSelector((state: RootState) => state.SetLastName.name);
     const AccountName = useSelector((state: RootState) => state.SetAccount.name);
+    const chart = useSelector((state: RootState) => state.SetChartData.chart);
+
 
     const dispatch = useDispatch();
 
@@ -47,11 +51,11 @@ dotenv.config();
             }
         } else {
             alert("MetaMask extension not detected!");
+
         }
     };
-    const [address,setAddress] = useState("");
-    const [chartData, setChartData] = useState({});
-    useMemo(() => {
+    const [ETHinUSD, setETHinUSD] = useState(0);
+    useEffect(() => {
         if (isLoaded && isSignedIn) {
             dispatch(SetName(user?.username));
             dispatch(ChangeFirstName(user?.firstName));
@@ -60,15 +64,17 @@ dotenv.config();
             fetchData().then(data => {  
             const ChartData = {
                 labels: data!.labels,
-                datasets: 
+                dataset:
+                [
                     {
                         label: 'ETH Price (USD)',
-                        data: data!.datasets.data,
-                        borderColor: data!.datasets.borderColor,
-                        backgroundColor: data!.datasets.backgroundColor,
-                    },
+                        data: data!.datasets[0].data,
+                        borderColor: "rgb(255, 99, 132)",
+                        backgroundColor: "rgba(255, 99, 132, 0.5)",
+                    }],
             };
-            setChartData(ChartData);
+            dispatch(Changechart(ChartData));
+            console.log(ChartData);
             }
             );
         }   
@@ -90,6 +96,8 @@ dotenv.config();
             <h2>Last Name</h2>
             <p>{LastName}</p>
             <h2>Account</h2>
+            <p>{AccountName}</p>
+            <h2>MetaMask</h2>
 
             {/*<div>*/}
             {/*    <h1> Sign up </h1>*/}
@@ -105,13 +113,12 @@ dotenv.config();
             <Link href="/soundBox">SoundBox</Link>
             <Link href="/transfer">Transfer</Link>
             <UserButton></UserButton>
-            {address}
             <Piechart/>
             {ETHinUSD}
             <div>
                 <button
                     onClick={() => {
-                        fetch(`https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=100&sort=asc&apikey=${process.env.ETHER_URL}`)
+                        fetch(`https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${AccountName}&startblock=0&endblock=99999999&page=1&offset=100&sort=asc&apikey=${process.env.ETHER_URL}`)
                             .then(response => response.json())
                             .then(data => console.log(data))
                     }}
@@ -121,8 +128,7 @@ dotenv.config();
             </div>
 
             <div>
-                {/* The chartData is not getting updated on line 56 idk why fcuk it  */}
-                {/* {chartData !== undefined && <PriceChart data={chartData} />} */}
+                <YourComponent/>
             </div>
         </div>
     );

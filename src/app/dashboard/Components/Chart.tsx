@@ -2,48 +2,27 @@ import { ChartOptions } from 'chart.js';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { fetchData } from "./data";
-// const Chart = () => {
+import 'chartjs-adapter-date-fns';
+import { TimeScale,Chart,LinearScale,PointElement,LineElement,CategoryScale} from 'chart.js';
+import 'chartjs-adapter-date-fns';
+Chart.register(TimeScale,LinearScale,PointElement,LineElement,CategoryScale);
 
-
-//   return <PriceChart data={chartData} />;
-// };
-// interface ChartData {
-//   labels: string[];
-//   datasets: {
-//     label: string;
-//     data: number[];
-//     borderColor: string;
-//     backgroundColor: string;
-//   }[];
-// }
+// Rest of your code here
 
 
 
 const PriceChart = ({ data }: { data: any }) => {
     const chartOptions: ChartOptions<'line'> = {
-        scales: {
-            x: {
-                type: 'time',
-                time: {
-                  parser: 'YYYY-MM-DD HH:mm:ss',
-                  tooltipFormat: 'll HH:mm',
-                  unit: 'minute',
-                  displayFormats: {
-                    'minute': 'HH:mm'
-                  },
-                },
-                title: {
-                    display: true,
-                    text: 'Time'
-                }
-            },
-            y: {
-                title: {
-                    display: true,
-                    text: 'Price (USD)'
-                }
-            }
-        }
+          responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'ETH Price (USD) over Time',
+    },
+  },
     };
 
     return <Line data={data} options={chartOptions} />;
