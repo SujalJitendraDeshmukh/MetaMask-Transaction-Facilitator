@@ -1,18 +1,56 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+// import { NextApiRequest } from "next";
+// import { PrismaClient } from '@prisma/client';
+//
+//
+// const prisma = new PrismaClient();
+//
+// type ResponseData = {
+//     message: string;
+// }
+//
+// export async function GET (
+//     req: NextApiRequest,
+// ) {
+//     // const { to, from, amount, blockchain, type, username, firstName, lastName } = req.body;
+//
+//     try {
+//         // let user = await prisma.user.findUnique({
+//         //     where: { username: username }
+//         // });
+//         //
+//         // if (!user) {
+//         //     user = await prisma.user.create({
+//         //         data: {
+//         //             username: username,
+//         //             firstName: firstName,
+//         //             lastName: lastName
+//         //         }
+//         //     });
+//         // }
+//         //
+//         // await prisma.transaction.create({
+//         //     data: {
+//         //         to: to,
+//         //         from: from,
+//         //         amount: amount,
+//         //         blockchain: blockchain,
+//         //         type: type,
+//         //         transactionType: 'send',
+//         //         userId: user.id
+//         //     }
+//         // });
+//
+//         Response.json({Msg:"your message"}, {status:200});
+//     } catch (err) {
+//         console.error(err);
+//         Response.json({Msg:"your message"}, {status:500});
+//     } finally {
+//         await prisma.$disconnect();
+//     }
+// }
 
-type ResponseData = {
-    message: string
-}
-export default function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<ResponseData>
-){
+import { NextResponse } from 'next/server'
 
-    const {  }
-
-    try{
-
-    } catch (err){
-        res.status(500).send({ message: 'Failed to save Data' })
-    }
+export async function GET(request: Request) {
+    return NextResponse.json({ msg: 'Hello from server' })
 }
