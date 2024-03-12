@@ -58,19 +58,24 @@ export default function Transfer() {
             console.error('Error transferring ether:', error);
         }
     }
-    const handleUint = (event) => {
-        dispatch(ChangeUnit(event.target.value));
-    };
-    const handleBlockChain = (event) => {
-        dispatch(ChangeBlockchain(event.target.value));
+    const handleUint = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        dispatch(ChangeUnit(target.value));
     };
 
-    const handleRecipient = (event) => {
-        dispatch(ChangeRecipient(event.target.value));
+    const handleBlockChain = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        dispatch(ChangeBlockchain(target.value));
     };
 
-    const handleAmount = (event) => {
-        dispatch(ChangeAmount(event.target.value));
+    const handleRecipient = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        dispatch(ChangeRecipient(target.value));
+    };
+
+    const handleAmount = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        dispatch(ChangeAmount(target.value));
     };
 
     const handleTransfer = async () => {
