@@ -2,7 +2,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { UserButton, useUser } from "@clerk/nextjs";
-import { useEffect } from "react";
+import {ChangeEventHandler, useEffect} from "react";
 import {SetName, SetUsername} from "@/provider/redux/SetUsername";
 import {RootState} from "@/provider/redux/store";
 import Link from 'next/link';
@@ -58,24 +58,20 @@ export default function Transfer() {
             console.error('Error transferring ether:', error);
         }
     }
-    const handleUint = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        dispatch(ChangeUnit(target.value));
+    const handleUint = (event: SelectChangeEvent<string>) => {
+        dispatch(ChangeUnit(event.target.value));
     };
 
-    const handleBlockChain = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        dispatch(ChangeBlockchain(target.value));
+    const handleBlockChain = (event: SelectChangeEvent<string>) => {
+        dispatch(ChangeBlockchain(event.target.value));
     };
 
-    const handleRecipient = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        dispatch(ChangeRecipient(target.value));
+    const handleRecipient : ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
+        dispatch(ChangeRecipient(event.target.value));
     };
 
-    const handleAmount = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        dispatch(ChangeAmount(target.value));
+    const handleAmount: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
+        dispatch(ChangeAmount(event.target.value));
     };
 
     const handleTransfer = async () => {
