@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DecentraSound
+## Overview
+The Ethereum MetaMask Transaction Facilitator is a project designed to streamline transactions within Ethereum-based blockchains, much like the convenience provided by Paytm Soundbox. This application simplifies the process of conducting transactions on Ethereum networks, enhancing user experience and accessibility.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Features
+* Seamless Transactions: Users can effortlessly initiate and complete transactions on Ethereum-based blockchains.
+* MetaMask Integration: Utilizes MetaMask for secure and convenient transaction processing.
+* Next.js Frontend: Built with Next.js, providing a fast and responsive user interface.
+* Solidity Smart Contracts: Smart contracts written in Solidity ensure the reliability and security of transactions.
+* TypeScript: Leveraging TypeScript for enhanced code maintainability and scalability.
+* Prisma: Integrates Prisma for efficient database management, with PostgreSQL as the preferred database system.
+## Technologies Used
+* Next.js: A React-based framework for building server-side rendered (SSR) web applications.
+* Solidity: A smart contract programming language for Ethereum blockchain development.
+* TypeScript: A superset of JavaScript that adds static typing to the language.
+* Prisma: A modern database toolkit for Node.js and TypeScript, simplifying database access.
+* PostgreSQL: An open-source relational database system known for its reliability and robust features.
+* MetaMask: A cryptocurrency wallet browser extension enabling secure transactions and interaction with Ethereum-based decentralized applications.
+## Installation
+* Clone the repository from GitHub:
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+git clone https://github.com/ShashwatPS/DecentraSound.git
+```
+* Install dependencies using npm or yarn:
+```
+cd ethereum-metamask-transaction-facilitator
+npm install
+```
+* Set up MetaMask in your browser and connect it to the Ethereum network.
+* Configure your PostgreSQL database connection in the Prisma configuration file.
+* Start the application:
+```
+npm run dev
+```
+* Access the application at http://localhost:3000 in your web 
